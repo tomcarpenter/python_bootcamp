@@ -25,6 +25,11 @@
 - string: `.str.lower()` `.str.contains()` `.str.strip()`
 - conditional: `.where()` keeps if true. `.mask` keeps if false
 
+In general, many series methods like this pattern:
+- `d.groupby("class")["fare"].rank(method="first",ascending = False)`
+- `d.groupby("class")["fare"].quantile([.25, .50, .75])`
+- `d.groupby("class")["fare"].transform("quantile", .75)`
+- `d.groupby("class")["fare"].cumcount()`
 
 in general, transform dicts are {"old": "new"}
 
@@ -33,6 +38,26 @@ in general, transform dicts are {"old": "new"}
     - `df["col"] = df["col"].round(2)`
     - rounding ignores categorical
 
+# Make categorical series
+```
+pd.Categorical(
+    df["a"],
+    categories = ["q", "r" "s"],
+    ordered=True
+)
+```
+
+# cut
+```
+pd.cut(
+    df["col"],
+    bins=[0, 18, 40, 60, np.inf],
+    labels=["Child", "Young Adult", "Middle Aged", "Older"],
+    include_lowest=True
+)
+```
+
+`pd.quct(df["col"], 4)`
 
 # DF Methods
 
@@ -50,6 +75,7 @@ in general, transform dicts are {"old": "new"}
 
 ### MUTATE / RECODE
 - `.assign(new = lambda d: ...)`
+    - DO GROUPING INSIDE ASSIGN, NOT BEFORE IT AS YOU DO IN TIDYVERSE
 - `.rename(columns={"old": "new"})`
 - `.replace({"old": "new"})` runs for entire df
 - `.astype({"col": "category"|"int64"|"float64"|"object"|"string"|"bool"})` cast columns
@@ -59,7 +85,7 @@ in general, transform dicts are {"old": "new"}
 - `.sort_values(["a", "b"], ascending=[True, False])`
 - `.sort_index()` #reset df order using index
 - `.nlargest(5, "fare")`  `.nsmallest(5, "fare")`
-    - `.nlargest(10, ["fare", "age"], keep="all")` allows tiebreaker columns and a keep for ties
+    - `.nlargest(n=10, columns=["fare", "age"], keep="all")` allows tiebreaker columns and a keep for ties
 - `.duplicated(subset=["col", "col2"])` flag duplicated rows overall or on a subset of columns
 - `.drop_duplicates(subset=["col1", "col2"])` either overall or subset
 - `.isna().sum()`
