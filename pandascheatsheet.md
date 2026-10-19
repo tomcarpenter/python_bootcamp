@@ -102,8 +102,11 @@ pd.cut(
 - `.groupby("a")["col"].count()` count nonmissing col
 - `.reset_index()`
 
-### SUMMARIZE
+### SUMMARIZE AN ENTIRE DF
 - `.agg(["func1", "func2", "func3"])`
+    - FOR AGG, USE GROUP BY PRIOR TO CALCULATION
+    - FOR ASSIGN, USE GROUP BY WITHIN CALCULATION
+- `.sum(numeric_only=True)` 
 
 ### GROUP WINDOW
 - `.groupby("group")["column"].rank(method="first"|"min"|"dense", ascending=True)` is the equilvanet of a window function
