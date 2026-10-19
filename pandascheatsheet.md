@@ -2,7 +2,7 @@
 # Series Methods
 - `.map()`
 - `.groupby()` --> `.transform()`
-- `.value_counts()`
+- `.value_counts(normalize=False)`
 
 - `.sum()` `.min()` `.max()`
 - `.mean()` `.median()` `.mode()[0]` RETURNS SERIES, GRAB 1st
